@@ -9,12 +9,12 @@ namespace BelLHackathonSecurity.Controllers
     public class UserDatasController : Controller
     {
         private readonly ApplicationDbContext _context;
-        protected internal RoleManager<IdentityRole> _roleManager;
 
-        public UserDatasController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
+
+        public UserDatasController(ApplicationDbContext context)
         {
             _context = context;
-            _roleManager = roleManager;
+          
         }
 
         public async Task<IActionResult> Dashboard()
@@ -67,12 +67,7 @@ namespace BelLHackathonSecurity.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<int> CreateRoles()
-        {
-            await _roleManager.CreateAsync(new IdentityRole("User"));
-            await _roleManager.CreateAsync(new IdentityRole("Company"));
-            return 0;
-        }
+
         
         public async Task<IActionResult> RevokeDataEmail(string id)
         {
