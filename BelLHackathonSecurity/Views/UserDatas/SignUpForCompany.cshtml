@@ -1,0 +1,36 @@
+﻿@model IEnumerable<BelLHackathonSecurity.Models.Company>
+
+@{
+    ViewData["Title"] = "SignUpForCompany";
+}
+
+<h1>SignUpForCompany</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.CompanyName
+            </td>
+
+            <td>      
+                <a asp-action="SignupToCompany" asp-route-id="@item.Id">Signup</a> |
+                    <a asp-action="RetrieveDataFromCompany" asp-route-id="@item.Id">Retrieve Data</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

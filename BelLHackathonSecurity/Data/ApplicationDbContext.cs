@@ -8,6 +8,7 @@ namespace BelLHackathonSecurity.Data
     {
         public DbSet<Company> Companies { get; set; }
         public DbSet<UserData> userDatas { get; set; }
+        public DbSet<UsersToCompany> UsersToCompany { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
