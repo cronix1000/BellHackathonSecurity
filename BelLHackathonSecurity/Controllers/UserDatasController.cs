@@ -108,12 +108,27 @@ namespace BelLHackathonSecurity.Controllers
             return View(userData);
         }
 
+        public class HomeViewModel
+        {
+            public int companiesSignedUpFor { get; set; };
+        }
+
         // GET: UserDatas
         public async Task<IActionResult> Index()
         {
-            return _context.userDatas != null ? 
-                          View(await _context.userDatas.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.userDatas'  is null.");
+            string currentUserID = "";
+            if (User != null)
+            {
+                ClaimsPrincipal currentUser = this.User;
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            HomeViewModel hm = new()
+            {
+                companiesSignedUpFor = await _context.UsersToCompany.Where(a => a.UserId.ToString() == currentUserID).CountAsync()
+        };
+
+            return View(hm);
         }
 
         // GET: UserDatas/Details/5
@@ -176,6 +191,7 @@ namespace BelLHackathonSecurity.Controllers
 
             return RedirectToAction(nameof(SignUpForCompany));
         }
+
 
 
         public async Task<IActionResult> Edit(Guid? id)
