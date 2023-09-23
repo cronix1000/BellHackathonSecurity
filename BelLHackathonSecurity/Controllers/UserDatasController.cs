@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BelLHackathonSecurity.Data;
 using BelLHackathonSecurity.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BelLHackathonSecurity.Controllers
 {
+    [Authorize(Roles = "Company")]
     public class UserDatasController : Controller
     {
         private readonly ApplicationDbContext _context;
