@@ -7,17 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BelLHackathonSecurity.Data;
 using BelLHackathonSecurity.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BelLHackathonSecurity.Controllers
 {
     public class UserDatasController : Controller
     {
         private readonly ApplicationDbContext _context;
+        protected internal RoleManager<IdentityRole> _roleManager;
 
-        public UserDatasController(ApplicationDbContext context)
+        public UserDatasController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _roleManager = roleManager;
         }
+
 
         public async Task<IActionResult> RevokeData(Guid? id)
         {
@@ -58,6 +62,14 @@ namespace BelLHackathonSecurity.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<int> CreateRoles()
+        {
+            await _roleManager.CreateAsync(new IdentityRole("User"));
+            await _roleManager.CreateAsync(new IdentityRole("Company"));
+            return 0;
+        }
+        
         public async Task<IActionResult> RevokeDataEmail(string id)
         {
             var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
