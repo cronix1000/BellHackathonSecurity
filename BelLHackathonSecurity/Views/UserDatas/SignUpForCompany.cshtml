@@ -15,13 +15,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.CompanyName)
             </th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @item.CompanyName
+            </td>
+
             <td>      
-                <a asp-action="SignupToCompany" asp-route-id="@item.Id">Signup</a>
+                <a asp-action="SignupToCompany" asp-route-id="@item.Id">Signup</a> |
+                    <a asp-action="RetrieveDataFromCompany" asp-route-id="@item.Id">Retrieve Data</a>
+
             </td>
         </tr>
 }

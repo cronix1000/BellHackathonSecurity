@@ -160,6 +160,23 @@ namespace BelLHackathonSecurity.Controllers
             return RedirectToAction(nameof(SignUpForCompany));
         }
 
+        public async Task<IActionResult> RetrieveDataFromCompany(string id)
+        {
+            string currentUserID = "";
+            if (User != null)
+            {
+                ClaimsPrincipal currentUser = this.User;
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            var userData = await _context.UsersToCompany.Where(a => a.CompanyId.ToString() == id && a.UserId.ToString() == currentUserID).FirstOrDefaultAsync();
+
+            if(userData != null)
+                _context.UsersToCompany.Remove(userData);
+
+            return RedirectToAction(nameof(SignUpForCompany));
+        }
+
 
         public async Task<IActionResult> Edit(Guid? id)
         {
