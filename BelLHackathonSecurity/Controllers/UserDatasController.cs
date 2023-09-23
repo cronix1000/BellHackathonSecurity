@@ -117,7 +117,7 @@ namespace BelLHackathonSecurity.Controllers
 
         public class HomeViewModel
         {
-            public int companiesSignedUpFor { get; set; };
+            public int companiesSignedUpFor { get; set; }
         }
 
         // GET: UserDatas
