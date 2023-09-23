@@ -8,18 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using BelLHackathonSecurity.Data;
 using BelLHackathonSecurity.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace BelLHackathonSecurity.Controllers
 {
     public class UserDatasController : Controller
     {
         private readonly ApplicationDbContext _context;
-        protected internal RoleManager<IdentityRole> _roleManager;
 
-        public UserDatasController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
+        public UserDatasController(ApplicationDbContext context)
         {
             _context = context;
-            _roleManager = roleManager;
+
         }
 
 
@@ -62,14 +62,6 @@ namespace BelLHackathonSecurity.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        public async Task<int> CreateRoles()
-        {
-            await _roleManager.CreateAsync(new IdentityRole("User"));
-            await _roleManager.CreateAsync(new IdentityRole("Company"));
-            return 0;
-        }
-        
         public async Task<IActionResult> RevokeDataEmail(string id)
         {
             var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
@@ -119,7 +111,7 @@ namespace BelLHackathonSecurity.Controllers
         // GET: UserDatas
         public async Task<IActionResult> Index()
         {
-              return _context.userDatas != null ? 
+            return _context.userDatas != null ? 
                           View(await _context.userDatas.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.userDatas'  is null.");
         }
@@ -141,6 +133,33 @@ namespace BelLHackathonSecurity.Controllers
 
             return View(userData);
         }
+
+        public async Task<IActionResult> SignUpForCompany()
+        {
+            List<Company> companies = _context.Companies.ToList();
+            return View(companies);
+        }
+
+        public async Task<IActionResult> SignupToCompany(string id) {
+            string currentUserID = "";
+            if (User != null) {
+                ClaimsPrincipal currentUser = this.User;
+                 currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            UsersToCompany usersToCompany = new UsersToCompany()
+            {
+                Id = Guid.NewGuid(),
+                UserId = Guid.Parse(currentUserID),
+                CompanyId = Guid.Parse(id)
+            };
+
+            await _context.UsersToCompany.AddAsync(usersToCompany);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(SignUpForCompany));
+        }
+
 
         public async Task<IActionResult> Edit(Guid? id)
         {
