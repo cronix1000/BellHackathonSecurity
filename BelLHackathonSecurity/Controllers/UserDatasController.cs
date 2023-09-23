@@ -114,9 +114,10 @@ namespace BelLHackathonSecurity.Controllers
         // GET: UserDatas
         public async Task<IActionResult> Index()
         {
-            return _context.userDatas != null ?
-                        View(await _context.userDatas.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.userDatas'  is null.");
+
+            return _context.userDatas != null ? 
+                          View(await _context.userDatas.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.userDatas'  is null.");
         }
 
         // GET: UserDatas/Details/5
@@ -136,6 +137,50 @@ namespace BelLHackathonSecurity.Controllers
 
             return View(userData);
         }
+
+        public async Task<IActionResult> SignUpForCompany()
+        {
+            List<Company> companies = _context.Companies.ToList();
+            return View(companies);
+        }
+
+        public async Task<IActionResult> SignupToCompany(string id) {
+            string currentUserID = "";
+            if (User != null) {
+                ClaimsPrincipal currentUser = this.User;
+                 currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            UsersToCompany usersToCompany = new UsersToCompany()
+            {
+                Id = Guid.NewGuid(),
+                UserId = Guid.Parse(currentUserID),
+                CompanyId = Guid.Parse(id)
+            };
+
+            await _context.UsersToCompany.AddAsync(usersToCompany);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(SignUpForCompany));
+        }
+
+        public async Task<IActionResult> RetrieveDataFromCompany(string id)
+        {
+            string currentUserID = "";
+            if (User != null)
+            {
+                ClaimsPrincipal currentUser = this.User;
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            var userData = await _context.UsersToCompany.Where(a => a.CompanyId.ToString() == id && a.UserId.ToString() == currentUserID).FirstOrDefaultAsync();
+
+            if(userData != null)
+                _context.UsersToCompany.Remove(userData);
+
+            return RedirectToAction(nameof(SignUpForCompany));
+        }
+
 
         public async Task<IActionResult> Edit(Guid? id)
         {
