@@ -8,18 +8,22 @@ using Microsoft.EntityFrameworkCore;
 using BelLHackathonSecurity.Data;
 using BelLHackathonSecurity.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BelLHackathonSecurity.Controllers
 {
     public class UserDatasController : Controller
     {
         private readonly ApplicationDbContext _context;
-        protected internal RoleManager<IdentityRole> _roleManager;
+        
 
-        public UserDatasController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
+        //commented out user roles to test user view
+        //protected internal RoleManager<IdentityRole> _roleManager;
+
+        public UserDatasController(ApplicationDbContext context/**, RoleManager<IdentityRole> roleManager**/)
         {
             _context = context;
-            _roleManager = roleManager;
+            //_roleManager = roleManager;
         }
 
 
@@ -63,13 +67,13 @@ namespace BelLHackathonSecurity.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<int> CreateRoles()
-        {
-            await _roleManager.CreateAsync(new IdentityRole("User"));
-            await _roleManager.CreateAsync(new IdentityRole("Company"));
-            return 0;
-        }
-        
+        /** public async Task<int> CreateRoles()
+         {
+             await _roleManager.CreateAsync(new IdentityRole("User"));
+             await _roleManager.CreateAsync(new IdentityRole("Company"));
+             return 0;
+         }**/
+
         public async Task<IActionResult> RevokeDataEmail(string id)
         {
             var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
@@ -119,9 +123,11 @@ namespace BelLHackathonSecurity.Controllers
         // GET: UserDatas
         public async Task<IActionResult> Index()
         {
-              return _context.userDatas != null ? 
-                          View(await _context.userDatas.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.userDatas'  is null.");
+            return _context.userDatas != null ? 
+            View(await _context.userDatas.ToListAsync()) :
+            Problem("Entity set 'ApplicationDbContext.userDatas'  is null.");
+              
+                
         }
 
         // GET: UserDatas/Details/5
