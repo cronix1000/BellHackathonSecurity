@@ -11,16 +11,13 @@ namespace BelLHackathonSecurity
             _context = applicationDbContext;
         }
 
-        public async Task<int> CreateDataObject(string email)
+        public async Task<int> CreateDataObject(string id, string username)
         {
-            if(_context.userDatas.Any(a => a.Email == email)){
-                return 1;
-            }
-
             UserData userData = new UserData()
             {
                 Id = Guid.NewGuid(),
-                Email = email,
+                UserId = id,
+                Username = username
             };
 
             await _context.userDatas.AddAsync(userData);

@@ -1,0 +1,52 @@
+﻿@model BelLHackathonSecurity.Models.UserData
+
+@{
+    ViewData["Title"] = "RevokeData";
+}
+
+        <script>
+        function revokePhoneNumber() {
+            $.ajax({
+                type: "POST",
+                url: "/UserDatas/RevokeDataPhoneNumber?Id=" + id,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    alert("Data revoked successfully");
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            });
+        }
+        </script>
+
+    
+    
+
+    <h1>RevokeData</h1>
+
+    <h4>UserData</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+        <a class="btn btn-danger" value="" asp-action="RevokeDataPhoneNumber" asp-route-id="@Model.Id">
+            RevokeData
+        </a>        <a class="btn btn-danger" value="" asp-action="RevokeDataPhoneNumber" asp-route-id="@Model.Id">
+            RevokeData
+        </a>
+        <a class="btn btn-danger" value="" asp-action="RevokeDataPhoneNumber" asp-route-id="@Model.Id">
+            RevokeData
+        </a>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

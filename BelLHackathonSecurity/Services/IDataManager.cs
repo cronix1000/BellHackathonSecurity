@@ -4,6 +4,6 @@ namespace BelLHackathonSecurity
 {
     public interface IDataManager
     {
-        public Task<int> CreateDataObject(string email);
+        public Task<int> CreateDataObject(string id, string username);
     }
 }

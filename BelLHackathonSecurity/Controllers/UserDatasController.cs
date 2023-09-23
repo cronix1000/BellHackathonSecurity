@@ -19,6 +19,91 @@ namespace BelLHackathonSecurity.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> RevokeData(Guid? id)
+        {
+            if (id == null || _context.userDatas == null)
+            {
+                return NotFound();
+            }
+
+            var userData = await _context.userDatas.FindAsync(id);
+            if (userData == null)
+            {
+                return NotFound();
+            }
+
+            return View(userData);
+        }
+        public async Task<IActionResult> RevokeName(string id)
+        {
+            var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
+            if (userData == null)
+            {
+                return NotFound();
+            }
+            userData.PhoneNumber = null;
+            _context.Update(userData);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> RevokeDataPhoneNumber(string id)
+        {
+            var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
+            if (userData == null)
+            {
+                return NotFound();
+            }
+            userData.PhoneNumber = null;
+            _context.Update(userData);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> RevokeDataEmail(string id)
+        {
+            var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
+            if(userData == null)
+            {
+                return NotFound();
+            }
+            userData.PhoneNumber = null;
+            _context.Update(userData);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RevokeData(Guid id, UserData userData)
+        {
+            if (id != userData.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(userData);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserDataExists(userData.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(userData);
+        }
+
         // GET: UserDatas
         public async Task<IActionResult> Index()
         {
@@ -42,6 +127,21 @@ namespace BelLHackathonSecurity.Controllers
                 return NotFound();
             }
 
+            return View(userData);
+        }
+
+        public async Task<IActionResult> Edit(Guid? id)
+        {
+            if (id == null || _context.userDatas == null)
+            {
+                return NotFound();
+            }
+
+            var userData = await _context.userDatas.FindAsync(id);
+            if (userData == null)
+            {
+                return NotFound();
+            }
             return View(userData);
         }
 
