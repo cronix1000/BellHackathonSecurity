@@ -4,49 +4,59 @@
     ViewData["Title"] = "RevokeData";
 }
 
-        <script>
-        function revokePhoneNumber() {
-            $.ajax({
-                type: "POST",
-                url: "/UserDatas/RevokeDataPhoneNumber?Id=" + id,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    alert("Data revoked successfully");
-                },
-                failure: function (errMsg) {
-                    alert(errMsg);
-                }
-            });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revoke Data</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
         }
-        </script>
-
-    
-    
-
-    <h1>RevokeData</h1>
-
-    <h4>UserData</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-        <a class="btn btn-danger" value="" asp-action="RevokeDataPhoneNumber" asp-route-id="@Model.Id">
-            RevokeData
-        </a>        <a class="btn btn-danger" value="" asp-action="RevokeDataPhoneNumber" asp-route-id="@Model.Id">
-            RevokeData
-        </a>
-        <a class="btn btn-danger" value="" asp-action="RevokeDataPhoneNumber" asp-route-id="@Model.Id">
-            RevokeData
-        </a>
+        .container {
+            margin-top: 30px;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            margin: 5px;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+        .btn-secondary {
+            background-color: #343a40;
+            border-color: #343a40;
+        }
+        .btn-secondary:hover {
+            background-color: #2a2e32;
+            border-color: #2a2e32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Revoke Data</h1>
+        <h4 class="text-center">UserData</h4>
+        <hr />
+        <div class="row justify-content-center">
+            <div class="col-md-4 text-center">
+                <a class="btn btn-danger" asp-action="RevokeDataName" asp-route-id="@Model.Id">Revoke Name</a>
+                <a class="btn btn-danger" asp-action="RevokeDataEmail" asp-route-id="@Model.Id">Revoke Email</a>
+                <a class="btn btn-danger" asp-action="RevokeDataPhoneNumber" asp-route-id="@Model.Id">Revoke Phone Number</a>
+            </div>
+        </div>
+        <div class="mt-3 text-center">
+            <a asp-action="SignUpForCompany" class="btn btn-secondary">Back to List</a>
         </div>
     </div>
 
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
-
-    @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-    }
+    <!-- Include Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

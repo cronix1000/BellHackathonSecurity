@@ -154,7 +154,17 @@ namespace BelLHackathonSecurity.Controllers
 
         public async Task<IActionResult> SignUpForCompany()
         {
-            List<Company> companies = _context.Companies.ToList();
+            string currentUserID = "";
+            if (User != null)
+            {
+                ClaimsPrincipal currentUser = this.User;
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            var companies = await _context.Companies
+    .Where(company => _context.UsersToCompany
+        .Any(utc => utc.UserId.ToString() == currentUserID && utc.CompanyId == company.Id))
+    .ToListAsync();
             return View(companies);
         }
 
@@ -193,6 +203,7 @@ namespace BelLHackathonSecurity.Controllers
 
             if (userData != null)
                 _context.UsersToCompany.Remove(userData);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(SignUpForCompany));
         }
