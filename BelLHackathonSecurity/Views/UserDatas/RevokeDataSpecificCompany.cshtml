@@ -1,0 +1,68 @@
+﻿@model BelLHackathonSecurity.Controllers.UserDatasController.RemoveSpecificComp
+
+
+@{
+    ViewData["Title"] = "RevokeData";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revoke Data</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            margin: 5px;
+        }
+
+            .btn-danger:hover {
+                background-color: #c82333;
+                border-color: #bd2130;
+            }
+
+        .btn-secondary {
+            background-color: #343a40;
+            border-color: #343a40;
+        }
+
+            .btn-secondary:hover {
+                background-color: #2a2e32;
+                border-color: #2a2e32;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Revoke Data From @Model.companyName</h1>
+        <h4 class="text-center">UserData</h4>
+        <hr />
+        <div class="row justify-content-center">
+            <div class="col-md-4 text-center">
+                <a class="btn btn-danger" asp-action="RevokeDataName" asp-route-id="@Model.userId">Revoke Name</a>
+                <a class="btn btn-danger" asp-action="RevokeDataEmail" asp-route-id="@Model.userId">Revoke Email</a>
+                <a class="btn btn-danger" asp-action="RevokeDataPhoneNumber" asp-route-id="@Model.userId">Revoke Phone Number</a>
+            </div>
+        </div>
+        <div class="mt-3 text-center">
+            <a asp-action="SignUpForCompany" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

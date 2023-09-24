@@ -82,7 +82,12 @@
                         <tr>
                             <td>@item.CompanyName</td>
                             <td>
-                                <a asp-action="RetrieveDataFromCompany" asp-route-id="@item.Id" class="btn btn-danger">Retrieve Data</a>
+                               <a asp-action="RetrieveDataFromCompany" asp-route-id="@item.Id" class="btn btn-danger"
+   onclick="return confirm('Are you sure you want to retrieve data from this company?')">Delete All</a>
+
+<a asp-action="RevokeDataSpecificCompany" asp-route-companyId="@item.Id" class="btn btn-danger"
+   onclick="return confirm('Are you sure you want to revoke data for this company?')">Revoke Data</a>
+
                             </td>
                         </tr>
                     }
