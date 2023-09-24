@@ -2,6 +2,8 @@
 
 > Take back your data.
 
+## Empower users to control their data
+
 Comb is a web protocol for access delegation. It enables users to **grant** and **revoke** their data that is used by websites they have signed up for.
 
 When a website uses the Comb Protocol, they agree to store user data with us.
