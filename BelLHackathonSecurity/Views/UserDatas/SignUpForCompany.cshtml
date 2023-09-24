@@ -4,33 +4,91 @@
     ViewData["Title"] = "SignUpForCompany";
 }
 
-<h1>SignUpForCompany</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up for Companies</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.CompanyName
-            </td>
+        .container {
+            margin-top: 30px;
+        }
 
-            <td>      
-                <a asp-action="SignupToCompany" asp-route-id="@item.Id">Signup</a> |
-                    <a asp-action="RetrieveDataFromCompany" asp-route-id="@item.Id">Retrieve Data</a>
+        .table {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            .table th {
+                background-color: #343a40;
+                color: #fff;
+            }
+
+            .table td, .table th {
+                border: none;
+                padding: 15px;
+                text-align: center;
+            }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+            .btn-success:hover {
+                background-color: #1e7e34;
+            }
+
+        .btn-info {
+            background-color: #17a2b8;
+            border: none;
+        }
+
+            .btn-info:hover {
+                background-color: #117a8b;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Comb your Data</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Company Name</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.CompanyName</td>
+                            <td>
+                                <a asp-action="RetrieveDataFromCompany" asp-route-id="@item.Id" class="btn btn-danger">Retrieve Data</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
