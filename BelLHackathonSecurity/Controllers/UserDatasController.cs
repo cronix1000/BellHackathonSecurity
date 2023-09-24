@@ -3,10 +3,7 @@ using BelLHackathonSecurity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
-using System.Security.Cryptography;
 
 namespace BelLHackathonSecurity.Controllers
 {
@@ -18,7 +15,7 @@ namespace BelLHackathonSecurity.Controllers
         public UserDatasController(ApplicationDbContext context)
         {
             _context = context;
-          
+
         }
         [Authorize]
         public async Task<IActionResult> Dashboard()
@@ -55,22 +52,20 @@ namespace BelLHackathonSecurity.Controllers
                 return NotFound();
             }
 
-            if (currentUserID == null || _context.userDatas == null)
-            {
-                return NotFound();
-            }
 
-            var userData = await _context.userDatas.Where(a => a.UserId ==currentUserID).FirstOrDefaultAsync();
-            if (userData == null)
+            RemoveSpecificComp RSC = new RemoveSpecificComp()
             {
-                return NotFound();
-            }
+                companyName = "",
+                userId = currentUserID
+            };
 
-            return View(userData);
+
+
+            return View(RSC);
         }
         public class RemoveSpecificComp
         {
-           public string userId { get; set; }
+            public string userId { get; set; }
             public string companyName { get; set; }
         }
         [Authorize]
@@ -93,7 +88,7 @@ namespace BelLHackathonSecurity.Controllers
                 userId = currentUserID,
                 companyName = comp.CompanyName
 
-             };
+            };
 
             return View(RSC);
         }
@@ -106,7 +101,7 @@ namespace BelLHackathonSecurity.Controllers
             {
                 return NotFound();
             }
-            userData.PhoneNumber = null;
+            userData.Name = null;
             _context.Update(userData);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(SignUpForCompany));
@@ -126,7 +121,7 @@ namespace BelLHackathonSecurity.Controllers
         }
 
 
-        
+
         public async Task<IActionResult> RevokeDataEmail(string id)
         {
             var userData = await _context.userDatas.Where(a => a.UserId == id).FirstOrDefaultAsync();
@@ -135,7 +130,7 @@ namespace BelLHackathonSecurity.Controllers
             {
                 return NotFound();
             }
-            userData.PhoneNumber = null;
+            userData.Email = null;
             _context.Update(userData);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(SignUpForCompany));
@@ -219,7 +214,8 @@ namespace BelLHackathonSecurity.Controllers
             return View(companies);
         }
         [Authorize]
-        public async Task<IActionResult> SignupToCompany(string id) {
+        public async Task<IActionResult> SignupToCompany(string id)
+        {
             string currentUserID = "";
             if (User != null)
             {
