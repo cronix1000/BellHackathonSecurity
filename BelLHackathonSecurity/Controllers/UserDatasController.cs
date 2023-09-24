@@ -131,6 +131,22 @@ namespace BelLHackathonSecurity.Controllers
         }
 
         // GET: UserDatas
+        public async Task<IActionResult> Index()
+        {
+            string currentUserID = "";
+            if (User != null)
+            {
+                ClaimsPrincipal currentUser = this.User;
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            HomeViewModel hm = new()
+            {
+                companiesSignedUpFor = await _context.UsersToCompany.Where(a => a.UserId.ToString() == currentUserID).CountAsync()
+            };
+
+            return View(hm);
+        }
 
         // GET: UserDatas/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -160,7 +176,7 @@ namespace BelLHackathonSecurity.Controllers
             string currentUserID = "";
             if (User != null) {
                 ClaimsPrincipal currentUser = this.User;
-                 currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             }
 
             UsersToCompany usersToCompany = new UsersToCompany()
@@ -187,8 +203,9 @@ namespace BelLHackathonSecurity.Controllers
 
             var userData = await _context.UsersToCompany.Where(a => a.CompanyId.ToString() == id && a.UserId.ToString() == currentUserID).FirstOrDefaultAsync();
 
-            if(userData != null)
+            if (userData != null)
                 _context.UsersToCompany.Remove(userData);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(SignUpForCompany));
         }
