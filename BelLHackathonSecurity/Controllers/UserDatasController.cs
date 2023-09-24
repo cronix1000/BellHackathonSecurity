@@ -19,12 +19,22 @@ namespace BelLHackathonSecurity.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
-            ClaimsPrincipal currentUser = this.User;
-            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var userData = await _context.userDatas.Where(a => a.UserId == currentUserID).FirstOrDefaultAsync();
 
-            return View(userData);
+
+            string currentUserID = "";
+            if (User != null)
+            {
+                ClaimsPrincipal currentUser = this.User;
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            HomeViewModel hm = new()
+            {
+                companiesSignedUpFor = await _context.UsersToCompany.Where(a => a.UserId.ToString() == currentUserID).CountAsync()
+            };
+
+            return View(hm);
         }
 
         public async Task<IActionResult> RevokeData(Guid? id)
@@ -121,22 +131,6 @@ namespace BelLHackathonSecurity.Controllers
         }
 
         // GET: UserDatas
-        public async Task<IActionResult> Index()
-        {
-            string currentUserID = "";
-            if (User != null)
-            {
-                ClaimsPrincipal currentUser = this.User;
-                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            }
-
-            HomeViewModel hm = new()
-            {
-                companiesSignedUpFor = await _context.UsersToCompany.Where(a => a.UserId.ToString() == currentUserID).CountAsync()
-        };
-
-            return View(hm);
-        }
 
         // GET: UserDatas/Details/5
         public async Task<IActionResult> Details(Guid? id)
@@ -294,5 +288,14 @@ namespace BelLHackathonSecurity.Controllers
         {
             return (_context.userDatas?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        public async Task<IActionResult> Index()
+        {
+            return _context.Companies != null ?
+                        View(await _context.Companies.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Companies'  is null.");
+        }
+
+
     }
 }

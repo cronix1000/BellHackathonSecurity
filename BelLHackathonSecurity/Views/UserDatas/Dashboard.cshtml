@@ -1,7 +1,44 @@
-﻿@model BelLHackathonSecurity.Models.UserData
-
+﻿@model BelLHackathonSecurity.Controllers.UserDatasController.HomeViewModel
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-<h1>Dashboard</h1>
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffcccc; /* Light red background */
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #ff3333; /* Deeper red text color */
+            margin-top: 20px;
+            font-weight: bold; /* Increase font weight for urgency */
+        }
+
+        p {
+            font-size: 24px;
+            color: #ff3333; /* Deeper red text color */
+            font-weight: bold; /* Increase font weight for urgency */
+        }
+
+    </style>
+</head>
+<body>
+    <div style="font-size: 36px; font-weight: bold; color: #333;">Companies Signed Up For: <span style="font-size: 48px; color: #007bff;">@Model.companiesSignedUpFor</span></div>
+    <div style="font-size: 24px; color: #666;">Companies Currently Combing Through Your Data</div>
+    <a href="https://www.example.com">See Who</a>
+    <!-- You can add more HTML elements and styling as needed -->
+
+</body>
+</html>
+
+
+
