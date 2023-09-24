@@ -221,7 +221,8 @@ namespace BelLHackathonSecurity.Controllers
         [Authorize]
         public async Task<IActionResult> SignupToCompany(string id) {
             string currentUserID = "";
-            if (User != null) {
+            if (User != null)
+            {
                 ClaimsPrincipal currentUser = this.User;
                 currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             }
