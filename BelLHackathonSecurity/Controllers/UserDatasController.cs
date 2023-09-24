@@ -177,26 +177,9 @@ namespace BelLHackathonSecurity.Controllers
         }
         [Authorize]
         // GET: UserDatas
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            string? currentUserID = "";
-            if (User != null)
-            {
-                ClaimsPrincipal currentUser = this.User;
-                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            }
-
-            if(currentUserID != null)
-            {
-                return NotFound();
-            }
-
-            HomeViewModel hm = new()
-            {
-                companiesSignedUpFor = await _context.UsersToCompany.Where(a => a.UserId.ToString() == currentUserID).CountAsync()
-            };
-
-            return View(hm);
+            return RedirectToAction(nameof(Dashboard));
         }
 
         // GET: UserDatas/Details/5
