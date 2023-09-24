@@ -306,12 +306,6 @@ namespace BelLHackathonSecurity.Controllers
             return (_context.userDatas?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        public async Task<IActionResult> Index()
-        {
-            return _context.Companies != null ?
-                        View(await _context.Companies.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Companies'  is null.");
-        }
 
 
     }
