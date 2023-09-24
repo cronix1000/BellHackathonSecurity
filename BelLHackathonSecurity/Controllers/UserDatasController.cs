@@ -14,19 +14,31 @@ namespace BelLHackathonSecurity.Controllers
     {
         private readonly ApplicationDbContext _context;
 
+
         public UserDatasController(ApplicationDbContext context)
         {
             _context = context;
+          
         }
         [Authorize]
         public async Task<IActionResult> Dashboard()
         {
-            ClaimsPrincipal currentUser = this.User;
-            var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var userData = await _context.userDatas.Where(a => a.UserId == currentUserID).FirstOrDefaultAsync();
 
-            return View(userData);
+
+            string currentUserID = "";
+            if (User != null)
+            {
+                ClaimsPrincipal currentUser = this.User;
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+
+            HomeViewModel hm = new()
+            {
+                companiesSignedUpFor = await _context.UsersToCompany.Where(a => a.UserId.ToString() == currentUserID).CountAsync()
+            };
+
+            return View(hm);
         }
         [Authorize]
         public async Task<IActionResult> RevokeData()
@@ -111,6 +123,8 @@ namespace BelLHackathonSecurity.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        
         public async Task<IActionResult> RevokeDataEmail(string id)
         {
             var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
@@ -364,5 +378,8 @@ namespace BelLHackathonSecurity.Controllers
         {
             return (_context.userDatas?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+
+
     }
 }
