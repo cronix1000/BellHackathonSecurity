@@ -113,7 +113,7 @@ namespace BelLHackathonSecurity.Controllers
 
         public class HomeViewModel
         {
-            public int companiesSignedUpFor { get; set; };
+            public int companiesSignedUpFor { get; set; }
         }
 
         // GET: UserDatas
@@ -129,7 +129,7 @@ namespace BelLHackathonSecurity.Controllers
             HomeViewModel hm = new()
             {
                 companiesSignedUpFor = await _context.UsersToCompany.Where(a => a.UserId.ToString() == currentUserID).CountAsync()
-        };
+            };
 
             return View(hm);
         }
@@ -158,11 +158,13 @@ namespace BelLHackathonSecurity.Controllers
             return View(companies);
         }
 
-        public async Task<IActionResult> SignupToCompany(string id) {
+        public async Task<IActionResult> SignupToCompany(string id)
+        {
             string currentUserID = "";
-            if (User != null) {
+            if (User != null)
+            {
                 ClaimsPrincipal currentUser = this.User;
-                 currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+                currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             }
 
             UsersToCompany usersToCompany = new UsersToCompany()
@@ -189,7 +191,7 @@ namespace BelLHackathonSecurity.Controllers
 
             var userData = await _context.UsersToCompany.Where(a => a.CompanyId.ToString() == id && a.UserId.ToString() == currentUserID).FirstOrDefaultAsync();
 
-            if(userData != null)
+            if (userData != null)
                 _context.UsersToCompany.Remove(userData);
 
             return RedirectToAction(nameof(SignUpForCompany));
