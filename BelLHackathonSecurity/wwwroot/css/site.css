@@ -16,3 +16,65 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Global Styles */
+body {
+    background-color: #f5e9ff; /* Light purple background color */
+    color: #333; /* Dark text color */
+}
+
+a {
+    color: #6a0dad; /* Purple link color */
+}
+
+    a:hover {
+        color: #8d4acf; /* Lighter purple on hover */
+    }
+
+/* Navbar Styles */
+.navbar {
+    background-color: #6a0dad; /* Purple background color */
+}
+
+.navbar-brand img {
+    width: 40px;
+    filter: brightness(0) invert(1); /* Invert the image for better visibility on the purple background */
+}
+
+.nav-link {
+    color: #ffffff; /* White text color */
+}
+
+    .nav-link:hover {
+        color: #f7c1ff; /* Lighter purple on hover */
+    }
+
+/* Main Container Styles */
+.container {
+    max-width: 800px;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #6a0dad; /* Purple background color */
+    color: #ffffff; /* White text color */
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Hero Panel Styles */
+.hero-panel {
+    background-image: url("/hero.jpg") !important; /* URL of your hero image */
+    background-size: cover !important; /* Cover the entire hero panel */
+    background-position: center center !important; /* Center the image horizontally and vertically */
+    background-repeat: no-repeat !important; /* Prevent image from repeating */
+    text-align: center !important; /* Center-align text within the hero panel */
+    color: #fff; /* White text color for better visibility */
+    padding: 80px 0; /* Adjust padding as needed */
+}
+
+/* Hero Content Styles */
+.hero-content {
+    background-color: rgba(0, 0, 0, 0.6); /* Add a semi-transparent background color to make text readable */
+    padding: 20px; /* Add padding to the hero content for readability */
+}
