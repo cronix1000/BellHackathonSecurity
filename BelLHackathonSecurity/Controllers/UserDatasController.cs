@@ -98,9 +98,10 @@ namespace BelLHackathonSecurity.Controllers
             return View(RSC);
         }
 
-        public async Task<IActionResult> RevokeName(string id)
+        public async Task<IActionResult> RevokeDataName(string id)
         {
-            var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
+            var userData = await _context.userDatas.Where(a => a.UserId == id).FirstOrDefaultAsync();
+
             if (userData == null)
             {
                 return NotFound();
@@ -108,11 +109,12 @@ namespace BelLHackathonSecurity.Controllers
             userData.PhoneNumber = null;
             _context.Update(userData);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(SignUpForCompany));
         }
         public async Task<IActionResult> RevokeDataPhoneNumber(string id)
         {
-            var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
+            var userData = await _context.userDatas.Where(a => a.UserId == id).FirstOrDefaultAsync();
+
             if (userData == null)
             {
                 return NotFound();
@@ -120,14 +122,15 @@ namespace BelLHackathonSecurity.Controllers
             userData.PhoneNumber = null;
             _context.Update(userData);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(SignUpForCompany));
         }
 
 
         
         public async Task<IActionResult> RevokeDataEmail(string id)
         {
-            var userData = await _context.userDatas.FindAsync(Guid.Parse(id));
+            var userData = await _context.userDatas.Where(a => a.UserId == id).FirstOrDefaultAsync();
+
             if (userData == null)
             {
                 return NotFound();
@@ -135,7 +138,7 @@ namespace BelLHackathonSecurity.Controllers
             userData.PhoneNumber = null;
             _context.Update(userData);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(SignUpForCompany));
         }
 
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
