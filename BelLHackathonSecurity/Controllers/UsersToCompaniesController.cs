@@ -161,33 +161,6 @@ namespace BelLHackathonSecurity.Controllers
           return (_context.UsersToCompany?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        public async Task<IActionResult> Details()
-        {
-            // Use LINQ to join the tables
-            var joinedData = await (from company in _context.Companies
-                                    join userToCompany in _context.UsersToCompany
-                                    on company.Id equals userToCompany.CompanyId
-                                    select new
-                                    {
-                                        company.Id,
-                                        company.CompanyName,
-                                        company.CompanyLink,
-                                        company.CompanyImage,
-                                        userToCompany.UserId
-                                    }).ToListAsync();
 
-            // Now you can work with the joined data, for example, pass it to a view
-            // or return it as JSON
-            return View(joinedData);
-        }
-
-        public class YourViewModel
-        {
-            public int Id { get; set; }
-            public string CompanyName { get; set; }
-            public string CompanyLink { get; set; }
-            public string CompanyImage { get; set; }
-            public string UserId { get; set; }
-        }
     }
 }
